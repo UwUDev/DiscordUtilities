@@ -1,19 +1,20 @@
-package me.uwu.saver.objs;
+package me.uwu.saver;
 
 import com.google.gson.Gson;
-import me.uwu.saver.Message;
-import me.uwu.saver.Template;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class Test {
-    public static void main(String[] args) throws IOException {
+    public static void main() throws IOException {
         StringBuilder sb = new StringBuilder();
         StringBuilder html = new StringBuilder();
 
@@ -25,6 +26,7 @@ public class Test {
         Message[] msg = gson3.fromJson(sb.toString(), Message[].class);
 
         List<Message> messages = new ArrayList<>(Arrays.asList(msg));
+        //List<Message> messages = Scrapper.messages;
         Collections.reverse(messages);
 
         for (Message message: messages) {

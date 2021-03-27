@@ -54,7 +54,7 @@ public class Scrapper {
             OkHttpClient client2 = new OkHttpClient().newBuilder()
                     .build();
             Request request2 = new Request.Builder()
-                    .url("https://discord.com/api/v8/channels/809852089747636244/messages?before=" + lastMessages[99].id + "&limit=100")
+                    .url("https://discord.com/api/v8/channels/" + channelId + "/messages?before=" + lastMessages[99].id + "&limit=100")
                     .method("GET", null)
                     .addHeader("Authorization", token)
                     .addHeader("Cookie", "__cfduid=d7d5dc7bd8843ef86e2a73ef661c1753a1616792356")

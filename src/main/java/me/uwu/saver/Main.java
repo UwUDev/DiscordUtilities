@@ -1,7 +1,5 @@
 package me.uwu.saver;
 
-import me.uwu.saver.objs.Test;
-
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -14,6 +12,6 @@ public class Main {
         Scrapper.channelId = scan.next();
 
         Scrapper.main();
-        Test.main(new String[]{});
+        Test.main();
     }
 }
