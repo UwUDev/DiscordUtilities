@@ -44,10 +44,12 @@ public class Test {
         html.append("<ul>");
 
         for (Message message: messages) {
-            if (message.getType() == 0 && message.getContent().isEmpty())
-                html.append("\n<li>").append(message.getAuthor().getUsername()).append(" sent a file: ").append(message.getAttachments()[0].getUrl()).append("</li>");
-            if (message.getType() == 0 && !message.getContent().isEmpty())
-                html.append("\n<li>").append("<img src=\"" + message.getAuthor().getAvatarUrl() + "\" class=\"avatar\">").append(message.getAuthor().getUsername()).append(":  ").append(message.getContent()).append("</li>");
+            if (message.getType() == 0) {
+                String m = message.getContent().replace("\n", "<br>");
+                if (message.getAttachments().length > 0)
+                    m = m + "<br><strong>Attachement :</strong>" + message.getAttachments()[0].getUrl();
+                html.append(Template.div.replace("{username}", message.getAuthor().getUsername()).replace("{message}", m).replace("{avatar}", message.getAuthor().getAvatarUrl()));
+            }
             if (message.getType() == 3)
                 html.append("\n<li>").append(message.getAuthor().getUsername()).append(" started a call").append("</li>");
         }

@@ -16,17 +16,30 @@ public class Template {
                             "            font-family: 'Roboto', serif;\n" +
                             "        }\n" +
                             "\n" +
-                            "        h1 {\n" +
-                            "            color: maroon;\n" +
-                            "            margin-left: 40px;\n" +
-                            "        }\n" +
-                            "\n" +
                             "        img {\n" +
                             "            border-radius: 50%;\n" +
+                            "\n" +
+                            "            max-width: 48px;\n" +
+                            "            height: auto;\n" +
                             "        }\n" +
                             "\n" +
-                            "        ul {\n" +
-                            "            list-style-type: none;\n" +
+                            "        .parent{\n" +
+                            "            /*border:1px solid red;*/\n" +
+                            "            width:100%;\n" +
+                            "            height:64px;\n" +
+                            "            position:relative;\n" +
+                            "            white-space: nowrap;\n" +
+                            "            overflow: hidden;\n" +
+                            "        }\n" +
+                            "\n" +
+                            "        .rightchild{\n" +
+                            "            top: 5px;\n" +
+                            "            left: 60px;\n" +
+                            "            width:100%;\n" +
+                            "            right:0;\n" +
+                            "            bottom: 0;\n" +
+                            "            /*background:red;*/\n" +
+                            "            position:absolute;\n" +
                             "        }\n" +
                             "    </style>\n" +
                             "</head>\n" +
@@ -36,5 +49,13 @@ public class Template {
                     "</body>" +
                     "</html>"
     };
+
+    public static String div =
+            "<div class=\"parent\" style=\"\">\n" +
+                    "        <img src=\"{avatar}\" class=\"avatar\"/>\n" +
+                    "        <div class=\"rightchild\">\n" +
+                    "            <strong>{username}</strong><br>{message}\n" +
+                    "        </div>\n" +
+                    "    </div><br>";
 
 }
