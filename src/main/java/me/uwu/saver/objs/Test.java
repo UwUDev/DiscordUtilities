@@ -9,9 +9,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class Test {
@@ -27,6 +25,7 @@ public class Test {
         Message[] msg = gson3.fromJson(sb.toString(), Message[].class);
 
         List<Message> messages = new ArrayList<>(Arrays.asList(msg));
+        Collections.reverse(messages);
 
         for (Message message: messages) {
             if (message.getType() == 0 && message.getContent().isEmpty())
@@ -46,7 +45,7 @@ public class Test {
             if (message.getType() == 0 && message.getContent().isEmpty())
                 html.append("\n<li>").append(message.getAuthor().getUsername()).append(" sent a file: ").append(message.getAttachments()[0].getUrl()).append("</li>");
             if (message.getType() == 0 && !message.getContent().isEmpty())
-                html.append("\n<li>").append(message.getAuthor().getUsername()).append(":  ").append(message.getContent()).append("</li>");
+                html.append("\n<li>").append("<img src=\"" + message.getAuthor().getAvatarUrl() + "\" class=\"avatar\">").append(message.getAuthor().getUsername()).append(":  ").append(message.getContent()).append("</li>");
             if (message.getType() == 3)
                 html.append("\n<li>").append(message.getAuthor().getUsername()).append(" started a call").append("</li>");
         }

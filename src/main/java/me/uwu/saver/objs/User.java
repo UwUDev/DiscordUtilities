@@ -28,7 +28,7 @@ public class User {
     }
 
     public String getAvatarUrl() {
-        return "https://cdn.discordapp.com/avatars/" + id + "/" + avatar + ".png?size=4096";
+        return "https://cdn.discordapp.com/avatars/" + id + "/" + avatar + ".png?size=64";
     }
 
     public String getDiscriminator() {

@@ -21,18 +21,19 @@ while len(messages) < 100:
 * */
 
 public class Scrapper {
-    public static String token = DscUtils.getToken();
+    public static String token;
+    public static String channelId;
 
     public static List<Message> messages = new ArrayList<>();
 
-    public static void main(String[] args) throws IOException {
+    public static void main() throws IOException {
 
         Message[] lastMessages;
 
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
         Request request = new Request.Builder()
-                .url("https://discord.com/api/v8/channels/809852089747636244/messages?limit=100")
+                .url("https://discord.com/api/v8/channels/" + channelId + "/messages?limit=100")
                 .method("GET", null)
                 .addHeader("Authorization", token)
                 .addHeader("Cookie", "__cfduid=d7d5dc7bd8843ef86e2a73ef661c1753a1616792356")

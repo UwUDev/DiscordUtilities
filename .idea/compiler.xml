@@ -7,7 +7,11 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Discord Saver" />
+        <module name="Discord-Saver" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Discord Saver" target="8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
