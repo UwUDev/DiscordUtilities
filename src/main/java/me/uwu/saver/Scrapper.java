@@ -11,15 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/*
-* messages = requests.get('https://discordapp.com/api/v6/channels/<CHANNEL ID>/messages?limit=100')
-last_message_id = messages[-1].id
-
-while len(messages) < 100:
-    messages = requests.get('https://discordapp.com/api/v6/channels/<CHANNEL ID>/messagesmessages?before={0}&limit=100'.format(last_message_id)
-    last_message_id = messages[-1].id
-* */
-
 public class Scrapper {
     public static String token;
     public static String channelId;
@@ -29,6 +20,11 @@ public class Scrapper {
     public static void main() throws IOException {
 
         Message[] lastMessages;
+
+        try {
+            new ProcessBuilder("cmd", "/c", "color 4").inheritIO().start().waitFor();
+        } catch (Exception ignored){}
+        System.out.print("\r" + messages.size() + " messages");
 
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
@@ -45,10 +41,13 @@ public class Scrapper {
 
         messages.addAll(Arrays.asList(lastMessages));
 
-        System.out.println(responseBody);
+        //System.out.println(responseBody);
 
-        System.out.println(lastMessages.length);
-        System.out.println(messages.size());
+        //System.out.println(lastMessages.length);
+        try {
+            new ProcessBuilder("cmd", "/c", "color a").inheritIO().start().waitFor();
+        } catch (Exception ignored){}
+        System.out.print("\r" + messages.size() + " messages");
 
         while (lastMessages.length >= 100){
             OkHttpClient client2 = new OkHttpClient().newBuilder()
@@ -66,10 +65,11 @@ public class Scrapper {
 
             messages.addAll(Arrays.asList(lastMessages));
 
-            System.out.println(responseBody2);
+            //System.out.println(responseBody2);
 
-            System.out.println(lastMessages.length);
-            System.out.println(messages.size());
+            //System.out.println(lastMessages.length);
+
+            System.out.print("\r" + messages.size() + " messages");
         }
 
         String json = new Gson().toJson(messages);
