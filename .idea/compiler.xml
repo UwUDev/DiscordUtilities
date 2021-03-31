@@ -10,8 +10,5 @@
         <module name="Discord-Saver" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Discord Saver" target="8" />
-    </bytecodeTargetLevel>
   </component>
 </project>

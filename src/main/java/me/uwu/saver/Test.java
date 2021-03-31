@@ -45,7 +45,7 @@ public class Test {
 
         for (Message message: messages) {
             if (message.getType() == 0) {
-                String m = message.getContent().replace("\n", "<br>");
+                String m = message.getContent().replace("<", "'<'").replace(">", "'>'").replace("\n", "<br>");
                 if (message.getAttachments().length > 0)
                     m = m + "<br><strong>Attachement :</strong>" + message.getAttachments()[0].getUrl();
                 html.append(Template.div.replace("{username}", message.getAuthor().getUsername()).replace("{message}", m).replace("{avatar}", message.getAuthor().getAvatarUrl()));
