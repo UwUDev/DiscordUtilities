@@ -655,4 +655,11 @@ public class Template {
                 "            <span class=author-name title=" + messages.getAuthor().getFullName() + " data-user-id=" + messages.getAuthor().getId() + ">" + messages.getAuthor().getUsername() + "</span> <span> Started a call. </span> <span class=timestamp>" + messages.getTimestamp() +"</span>\n";
     }
 
+    public static String addPin(Message messages){
+        return "<div class=message-group>\n" +
+                "        <div class=author-call-container><img class=author-call src=https://discord.com/assets/5da4cdab01d4d89c593c48c62ae0d937.svg></div>\n" +
+                "        <div class=cmessages>\n" +
+                "            <span class=author-name title=" + messages.getAuthor().getFullName() + " data-user-id=" + messages.getAuthor().getId() + ">" + messages.getAuthor().getUsername() + "</span> <span> Pinned <a href=\"https://discord.com/channels/@me/" + Scrapper.channelId + "/" + messages.id + "\">a message</a> </span> <span class=timestamp>" + messages.getTimestamp() +"</span>\n";
+    }
+
 }

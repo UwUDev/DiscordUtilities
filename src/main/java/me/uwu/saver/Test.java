@@ -56,6 +56,11 @@ public class Test {
                 html.append(Template.addCall(message));
             }
 
+            if (message.type == 6) {
+                html.append(Template.endMessageGroup);
+                html.append(Template.addPin(message));
+            }
+
             lastId = message.author.getId();
             maxRep++;
         }
