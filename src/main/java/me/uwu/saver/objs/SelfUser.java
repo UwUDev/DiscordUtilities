@@ -60,7 +60,7 @@ public class SelfUser {
     }
 
     public String getAvatarUrl() {
-        return "https://cdn.discordapp.com/avatars/" + id + "/" + avatar + ".png?size=256";
+        return "https://cdn.discordapp.com/avatars/" + id + "/" + avatar + ".gif?size=256";
     }
 
     public String getDiscriminator() {

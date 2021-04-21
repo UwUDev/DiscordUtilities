@@ -32,7 +32,7 @@ public class Scrapper {
                 .url("https://discord.com/api/v8/channels/" + channelId + "/messages?limit=100")
                 .method("GET", null)
                 .addHeader("Authorization", token)
-                .addHeader("Cookie", "__cfduid=d7d5dc7bd8843ef86e2a73ef661c1753a1616792356")
+                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36")
                 .build();
 
         Gson gson = new Gson();
@@ -56,7 +56,7 @@ public class Scrapper {
                     .url("https://discord.com/api/v8/channels/" + channelId + "/messages?before=" + lastMessages[99].id + "&limit=100")
                     .method("GET", null)
                     .addHeader("Authorization", token)
-                    .addHeader("Cookie", "__cfduid=d7d5dc7bd8843ef86e2a73ef661c1753a1616792356")
+                    .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36")
                     .build();
 
             Gson gson2 = new Gson();
