@@ -1,5 +1,6 @@
 package me.uwu.saver;
 
+import me.uwu.saver.objs.Embed;
 import me.uwu.saver.utils.Emoji;
 
 public class Template {
@@ -593,16 +594,57 @@ public class Template {
     public static final String endMessageGroup = "</div>\n    </div>";
 
     public static String addMessageClassic(Message message, boolean reactions){
-        if (reactions) return "<div class=message message-id=" + message.id + ">\n" +
-                "                <div class=content><span class=markdown>" + Emoji.parse(message.content) + "</span></div>\n" +
-                "                <div class=reactions>\n" +
-                "                    <div class=reactions></div>\n" +
-                "                </div>\n" +
-                "            </div>";
+        StringBuilder sb = new StringBuilder();
 
-        return "<div class=message message-id=" + message.id + ">\n" +
-                "                <div class=content><span class=markdown>" + Emoji.parse(message.content) + "</span></div>\n" +
-                "            </div>";
+        sb.append("<div class=message message-id=" + message.id + ">\n" +
+                "                <div class=content><span class=markdown>" + Emoji.parse(message.content) + "</span></div>\n");
+
+        for (Embed embed : message.getEmbeds()) {
+            sb.append("<div class=embed>\n" +
+                    "                    <div class=embed-color-pill style=background-color:#" + Integer.toHexString(embed.getColor()) + "></div>\n" +
+                    "                    <div class=embed-content-container>\n" +
+                    "                        <div class=embed-content>\n" +
+                    "                            <div class=embed-text>\n" +
+                    "                                <div class=embed-author>");
+
+            if (embed.getImage() != null)
+                sb.append("<img class=embed-author-icon src=https://cdn.discordapp.com/embed/avatars/0.png>");
+
+            sb.append("<span class=embed-author-name>" + embed.getTitle() + "</span></div>\n" +
+                    "                            </div>\n" +
+                    "                        </div>\n" );
+
+            if (!embed.getDescription().equals("") && embed.getDescription() != null)
+                sb.append("<div class=embed-text>\n" +
+                    "                                <div class=embed-description><span class=markdown>" + Emoji.parse(embed.getDescription()) + "</span>\n" +
+                    "                                </div>\n" +
+                    "                                <div class=embed-fields></div>\n" +
+                    "                            </div>");
+
+            if (embed.getThumbnail() != null)
+                sb.append("<div class=attachment><a href=" + embed.getThumbnail().getUrl() + "><img class=attachment-thumbnail src=" + embed.getThumbnail().getUrl() + "></a></div>\n");
+            //else System.out.println("No img");
+
+            if (embed.getFooter() != null)
+            sb.append("                        <div class=embed-footer><img class=embed-footer-icon src=" +
+                    embed.getFooter().getIcon_url() +
+                    "><span class=embed-footer-text>" +
+                    embed.getFooter().getText() +
+                    " • " +
+                    embed.getTimestamp() +
+                    "</span></div>\n");
+
+            sb.append("                    </div>\n" +
+                    "                </div>");
+        }
+
+        if (reactions)
+            sb.append("                <div class=reactions>\n" +
+                    "                    <div class=reactions></div>\n" +
+                    "                </div>\n");
+
+        sb.append("            </div>");
+        return sb.toString();
     }
 
 }

@@ -1,9 +1,6 @@
 package me.uwu.saver;
 
-import me.uwu.saver.objs.Attachments;
-import me.uwu.saver.objs.Mention_roles;
-import me.uwu.saver.objs.Mentions;
-import me.uwu.saver.objs.User;
+import me.uwu.saver.objs.*;
 
 public class Message {
     protected String id;
@@ -12,6 +9,7 @@ public class Message {
     protected String channel_id;
     protected User author;
     protected Attachments[] attachments;
+    protected Embed[] embeds;
     protected Mentions[] mentions;
     protected Mention_roles[] mention_roles;
     protected boolean pinned;
@@ -21,13 +19,14 @@ public class Message {
     protected String edited_timestamp;
     protected String flags;
 
-    public Message(String id, int type, String content, String channel_id, User author, Attachments[] attachments, Mentions[] mentions, Mention_roles[] mention_roles, boolean pinned, boolean mention_everyone, boolean tts, String timestamp, String edited_timestamp, String flags) {
+    public Message(String id, int type, String content, String channel_id, User author, Attachments[] attachments, Embed[] embeds, Mentions[] mentions, Mention_roles[] mention_roles, boolean pinned, boolean mention_everyone, boolean tts, String timestamp, String edited_timestamp, String flags) {
         this.id = id;
         this.type = type;
         this.content = content;
         this.channel_id = channel_id;
         this.author = author;
         this.attachments = attachments;
+        this.embeds = embeds;
         this.mentions = mentions;
         this.mention_roles = mention_roles;
         this.pinned = pinned;
@@ -92,5 +91,13 @@ public class Message {
 
     public String getFlags() {
         return flags;
+    }
+
+    public Embed[] getEmbeds() {
+        return embeds;
+    }
+
+    public void setEmbeds(Embed[] embeds) {
+        this.embeds = embeds;
     }
 }
