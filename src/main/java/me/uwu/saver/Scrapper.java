@@ -41,7 +41,7 @@ public class Scrapper {
 
         messages.addAll(Arrays.asList(lastMessages));
 
-        //System.out.println(responseBody);
+        System.out.println(responseBody);
 
         //System.out.println(lastMessages.length);
         try {

@@ -35,6 +35,10 @@ public class User {
         return discriminator;
     }
 
+    public String getFullName(){
+        return  username + "#" + discriminator;
+    }
+
     public String getPublic_flags() {
         return public_flags;
     }

@@ -16,11 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 public class Emoji {
 
     private static final Pattern pattern = Pattern.compile("((([\uD83C\uDF00-\uD83D\uDDFF]|[\uD83D\uDE00-\uD83D\uDE4F]|[\uD83D\uDE80-\uD83D\uDEFF]|[\u2600-\u26FF]|[\u2700-\u27BF])[\\x{1F3FB}-\\x{1F3FF}]?))");
-    public static String PROTOCOL = "https:";
-    public static String BASE = "//twemoji.maxcdn.com/2/";
-    public static String SIZE = "72x72";
-    public static String EXTENSION = ".png";
-    public static String CLASSNAME = "emoji";
 
     public static String parse(String text) {
         StringBuffer sb = new StringBuffer();
@@ -29,8 +24,8 @@ public class Emoji {
         while (matcher.find()) {
             String rawCode = matcher.group(2);
             String iconId = grabTheRightIcon(rawCode);
-            iconUrl = PROTOCOL + BASE + SIZE +"/" + iconId + EXTENSION;
-            matcher.appendReplacement(sb, "<img class=\"" + CLASSNAME + "\" src=\"" + iconUrl + "\">");
+            iconUrl = "https://twemoji.maxcdn.com/2/72x72/" + iconId + ".png";
+            matcher.appendReplacement(sb, "<img class=\"emoji\" src=\"" + iconUrl + "\">");
         }
         matcher.appendTail(sb);
         return sb.toString();
