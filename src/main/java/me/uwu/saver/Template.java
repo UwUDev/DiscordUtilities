@@ -614,7 +614,8 @@ public class Template {
                     "                            </div>\n" +
                     "                        </div>\n" );
 
-            if (!embed.getDescription().equals("") && embed.getDescription() != null)
+            if (embed.getDescription() != null)
+                if (!embed.getDescription().equals(""))
                 sb.append("<div class=embed-text>\n" +
                     "                                <div class=embed-description><span class=markdown>" + Emoji.parse(embed.getDescription()) + "</span>\n" +
                     "                                </div>\n" +
@@ -645,6 +646,13 @@ public class Template {
 
         sb.append("            </div>");
         return sb.toString();
+    }
+
+    public static String addCall(Message messages){
+        return "<div class=message-group>\n" +
+                "        <div class=author-call-container><img class=author-call src=https://discord.com/assets/c30220457097b064286a8759a9b6c4af.svg></div>\n" +
+                "        <div class=cmessages>\n" +
+                "            <span class=author-name title=" + messages.getAuthor().getFullName() + " data-user-id=" + messages.getAuthor().getId() + ">" + messages.getAuthor().getUsername() + "</span> <span> Started a call. </span> <span class=timestamp>" + messages.getTimestamp() +"</span>\n";
     }
 
 }

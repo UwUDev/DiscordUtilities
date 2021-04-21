@@ -48,6 +48,11 @@ public class Test {
                 }
             }
 
+            if (message.type == 3) {
+                html.append(Template.endMessageGroup);
+                html.append(Template.addCall(message));
+            }
+
             lastId = message.author.getId();
         }
         html.append(Template.endMessageGroup);
