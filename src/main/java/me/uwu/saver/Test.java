@@ -31,11 +31,14 @@ public class Test {
 
         String lastId = messages.get(0).author.getId();
 
+        byte maxRep = 1;
+
         html.append(Template.startMessageGroup(messages.get(0)));
         for (Message message: messages) {
-            if (!lastId.equals(message.author.getId())) {
+            if (!lastId.equals(message.author.getId()) || maxRep >= 7) {
                 html.append(Template.endMessageGroup);
                 html.append(Template.startMessageGroup(message));
+                maxRep =1;
             }
 
             if (message.type == 0){
@@ -54,6 +57,7 @@ public class Test {
             }
 
             lastId = message.author.getId();
+            maxRep++;
         }
         html.append(Template.endMessageGroup);
 
