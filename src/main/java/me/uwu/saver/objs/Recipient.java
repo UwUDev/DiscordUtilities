@@ -1,11 +1,11 @@
 package me.uwu.saver.objs;
 
 public class Recipient {
-    protected long id;
-    protected String username;
-    protected String avatar;
-    protected String discriminator;
-    protected long public_flags;
+    private long id;
+    private String username;
+    private String avatar;
+    private String discriminator;
+    private long public_flags;
 
     public Recipient(long id, String username, String avatar, String discriminator, long public_flags) {
         this.id = id;

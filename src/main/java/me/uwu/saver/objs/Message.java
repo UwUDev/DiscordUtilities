@@ -1,21 +1,21 @@
 package me.uwu.saver.objs;
 
 public class Message {
-    protected String id;
-    protected int type;
-    protected String content;
-    protected String channel_id;
-    protected User author;
-    protected Attachments[] attachments;
-    protected Embed[] embeds;
-    protected Mentions[] mentions;
-    protected Mention_roles[] mention_roles;
-    protected boolean pinned;
-    protected boolean mention_everyone;
-    protected boolean tts;
-    protected String timestamp;
-    protected String edited_timestamp;
-    protected String flags;
+    private String id;
+    private int type;
+    private String content;
+    private String channel_id;
+    private User author;
+    private Attachments[] attachments;
+    private Embed[] embeds;
+    private Mentions[] mentions;
+    private Mention_roles[] mention_roles;
+    private boolean pinned;
+    private boolean mention_everyone;
+    private boolean tts;
+    private String timestamp;
+    private String edited_timestamp;
+    private String flags;
 
     public Message(String id, int type, String content, String channel_id, User author, Attachments[] attachments, Embed[] embeds, Mentions[] mentions, Mention_roles[] mention_roles, boolean pinned, boolean mention_everyone, boolean tts, String timestamp, String edited_timestamp, String flags) {
         this.id = id;

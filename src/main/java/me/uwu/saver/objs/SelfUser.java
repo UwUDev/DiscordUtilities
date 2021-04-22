@@ -1,19 +1,19 @@
 package me.uwu.saver.objs;
 
 public class SelfUser {
-    protected String id;
-    protected String username;
-    protected String avatar;
-    protected String discriminator;
-    protected String public_flags;
-    protected String flags;
-    protected String locale;
-    protected boolean nsfw_allowed;
-    protected boolean mfa_enabled;
-    protected int premium_type;
-    protected String email;
-    protected boolean verified;
-    protected String phone;
+    private String id;
+    private String username;
+    private String avatar;
+    private String discriminator;
+    private String public_flags;
+    private String flags;
+    private String locale;
+    private boolean nsfw_allowed;
+    private boolean mfa_enabled;
+    private int premium_type;
+    private String email;
+    private boolean verified;
+    private String phone;
 
     public SelfUser(String id, String username, String avatar, String discriminator, String public_flags, String flags, String locale, boolean nsfw_allowed, boolean mfa_enabled, int premium_type, String email, boolean verified, String phone) {
         this.id = id;

@@ -1,16 +1,16 @@
 package me.uwu.saver.objs;
 
 public class Embed {
-    protected String type;
-    protected String url;
-    protected String timestamp;
-    protected String title;
-    protected String description;
-    protected int color;
-    protected Footer footer;
-    protected Image image;
-    protected Thumbnail thumbnail;
-    protected Video video;
+    private String type;
+    private String url;
+    private String timestamp;
+    private String title;
+    private String description;
+    private int color;
+    private Footer footer;
+    private Image image;
+    private Thumbnail thumbnail;
+    private Video video;
 
     public Embed(String type, String url, String timestamp, String title, String description, int color, Footer footer, Image image, Thumbnail thumbnail, Video video) {
         this.type = type;

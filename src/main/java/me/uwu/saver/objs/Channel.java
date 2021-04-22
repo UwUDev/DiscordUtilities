@@ -1,14 +1,14 @@
 package me.uwu.saver.objs;
 
 public class Channel {
-    protected long id;
-    protected int type;
-    protected long last_message_id;
-    protected String last_pin_timestamp;
-    protected Recipient[] recipients;
-    protected String name;
-    protected String icon;
-    protected long owner_id;
+    private long id;
+    private int type;
+    private long last_message_id;
+    private String last_pin_timestamp;
+    private Recipient[] recipients;
+    private String name;
+    private String icon;
+    private long owner_id;
 
     public Channel(long id, int type, long last_message_id, String last_pin_timestamp, Recipient[] recipients, String name, String icon, long owner_id) {
         this.id = id;

@@ -1,9 +1,9 @@
 package me.uwu.saver.objs;
 
 public class Footer {
-    protected String text;
-    protected String icon_url;
-    protected String proxy_icon_url;
+    private String text;
+    private String icon_url;
+    private String proxy_icon_url;
 
     public Footer(String text, String icon_url, String proxy_icon_url) {
         this.text = text;

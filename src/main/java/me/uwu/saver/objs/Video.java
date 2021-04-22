@@ -1,9 +1,9 @@
 package me.uwu.saver.objs;
 
 public class Video {
-    protected String url;
-    protected String proxy_url;
-    protected int width;
+    private String url;
+    private String proxy_url;
+    private int width;
     private int height;
 
     public Video(String url, String proxy_url, int width, int height) {

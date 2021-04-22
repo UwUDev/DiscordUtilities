@@ -1,11 +1,11 @@
 package me.uwu.saver.objs;
 
 public class User {
-    protected String id;
-    protected String username;
-    protected String avatar;
-    protected String discriminator;
-    protected String public_flags;
+    private String id;
+    private String username;
+    private String avatar;
+    private String discriminator;
+    private String public_flags;
 
     public User(String id, String username, String avatar, String discriminator, String public_flags) {
         this.id = id;
