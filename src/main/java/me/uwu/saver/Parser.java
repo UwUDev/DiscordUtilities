@@ -9,8 +9,14 @@ import java.util.Collections;
 import java.util.List;
 // 834163332248109118
 
-public class Test {
-    public static void main() throws IOException {
+public class Parser {
+    private Scrapper scrapper;
+
+    public Parser(Scrapper scrapper) {
+        this.scrapper = scrapper;
+    }
+
+    public void parse() throws IOException {
         StringBuilder html = new StringBuilder();
 
         //List<Message> messages = new ArrayList<>(Arrays.asList(msg));
@@ -21,7 +27,7 @@ public class Test {
         }
         Collections.reverse(messages);
 
-        html.append(Template.base[0].replace("${channel_name}", Scrapper.channelId).replace("${message_count}", String.valueOf(messages.size())));
+        html.append(Template.base[0].replace("${channel_name}", scrapper.getChannel().getRealChannelName()).replace("${message_count}", String.valueOf(messages.size())));
 
         String lastId = messages.get(0).author.getId();
 
@@ -38,7 +44,7 @@ public class Test {
             if (message.type == 0){
                 html.append(Template.addMessageClassic(message, false));
                 if (message.getEmbeds().length > 0) {
-                    System.out.println("Embed: https://discord.com/channels/@me/" + Scrapper.channelId + "/" + message.id);
+                    System.out.println("Embed: https://discord.com/channels/@me/" + scrapper.getChannel().getId() + "/" + message.id);
                     for (Embed embed : message.getEmbeds()) {
                         System.out.println("#" + Integer.toHexString(embed.getColor()));
                     }
@@ -53,7 +59,7 @@ public class Test {
 
             if (message.type == 6) {
                 html.append(Template.endMessageGroup);
-                html.append(Template.addPin(message));
+                html.append(Template.addPin(message, scrapper.getChannel().getId()));
                 maxRep = 99;
             }
 
@@ -70,5 +76,13 @@ public class Test {
         writer.close();
 
         System.out.println("\nFinished :)");
+    }
+
+    public Scrapper getScrapper() {
+        return scrapper;
+    }
+
+    public void setScrapper(Scrapper scrapper) {
+        this.scrapper = scrapper;
     }
 }

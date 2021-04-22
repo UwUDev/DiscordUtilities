@@ -4,17 +4,22 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
+    public static Scrapper scrapper;
+    public static String channelId;
+
     public static void main(String[] args) throws IOException {
         Scanner scan = new Scanner(System.in);
         System.out.print("\rToken: ");
-        Scrapper.token = scan.next();
+        scrapper = new Scrapper(scan.next());
         System.out.print("\rChannel id: ");
-        Scrapper.channelId = scan.next();
+        channelId = scan.next();
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         } catch (Exception ignored){}
 
-        Scrapper.main();
-        Test.main();
+        scrapper.updateChannel(channelId);
+        scrapper.scrape(channelId);
+        Parser parser = new Parser(scrapper);
+        parser.parse();
     }
 }

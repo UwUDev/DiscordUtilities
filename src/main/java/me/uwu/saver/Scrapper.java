@@ -1,6 +1,7 @@
 package me.uwu.saver;
 
 import com.google.gson.Gson;
+import me.uwu.saver.objs.Channel;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
@@ -10,14 +11,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class Scrapper {
-    public static String token;
-    public static String channelId;
+    private String token;
+    private Channel channel;
 
     public static List<Message> messages = new ArrayList<>();
 
-    public static void main() throws IOException {
+    public Scrapper(String token){
+        this.token = token;
+    }
+
+    public void scrape(String channelId) throws IOException {
 
         Message[] lastMessages;
 
@@ -79,5 +85,35 @@ public class Scrapper {
 
         writer.close();
 
+    }
+
+    public void updateChannel(String channelId) throws IOException {
+        OkHttpClient client = new OkHttpClient().newBuilder()
+                .build();
+        Request request = new Request.Builder()
+                .url("https://discord.com/api/v8/channels/" + channelId)
+                .method("GET", null)
+                .addHeader("Authorization", token)
+                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36")                .build();
+        Gson gson = new Gson();
+        String responseBody = client.newCall(request).execute().body().string();
+        System.out.println(responseBody);
+        channel = gson.fromJson(responseBody, Channel.class);
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Channel getChannel() {
+        return channel;
+    }
+
+    public void setChannel(Channel channel) {
+        this.channel = channel;
     }
 }
