@@ -1,12 +1,5 @@
 package me.uwu.saver.objs;
 
-/*
-"url": "http://pays.host/uploads/4c2479b1-278c-43a7-989f-efae3e44696b/2D3kxW2O.png",
-"proxy_url": "https://images-ext-1.discordapp.net/external/k2HOqBvN5btbvGQpum9drDi4rGbpS2MFOe_7O3TldiY/http/pays.host/uploads/4c2479b1-278c-43a7-989f-efae3e44696b/2D3kxW2O.png",
-"width": 1279,
-"height": 1021
-*/
-
 public class Thumbnail {
     protected String url;
     protected String proxy_url;

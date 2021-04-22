@@ -1,6 +1,4 @@
-package me.uwu.saver;
-
-import me.uwu.saver.objs.*;
+package me.uwu.saver.objs;
 
 public class Message {
     protected String id;

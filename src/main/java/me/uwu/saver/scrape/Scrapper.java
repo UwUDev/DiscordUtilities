@@ -1,7 +1,8 @@
-package me.uwu.saver;
+package me.uwu.saver.scrape;
 
 import com.google.gson.Gson;
 import me.uwu.saver.objs.Channel;
+import me.uwu.saver.objs.Message;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
@@ -11,7 +12,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 public class Scrapper {
     private String token;
@@ -59,7 +59,7 @@ public class Scrapper {
             OkHttpClient client2 = new OkHttpClient().newBuilder()
                     .build();
             Request request2 = new Request.Builder()
-                    .url("https://discord.com/api/v8/channels/" + channelId + "/messages?before=" + lastMessages[99].id + "&limit=100")
+                    .url("https://discord.com/api/v8/channels/" + channelId + "/messages?before=" + lastMessages[99].getId() + "&limit=100")
                     .method("GET", null)
                     .addHeader("Authorization", token)
                     .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36")

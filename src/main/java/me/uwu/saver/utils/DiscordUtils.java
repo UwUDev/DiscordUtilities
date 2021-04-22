@@ -1,7 +1,6 @@
 package me.uwu.saver.utils;
 
 import com.google.gson.Gson;
-import me.uwu.saver.Message;
 import me.uwu.saver.objs.SelfUser;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

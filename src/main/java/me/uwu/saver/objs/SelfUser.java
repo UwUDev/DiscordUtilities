@@ -1,21 +1,5 @@
 package me.uwu.saver.objs;
 
-/*
-* "id": "315533269997453312",
-    "username": "UwU",
-    "avatar": "a_774fd6658d06066f1b70b461b58623a9",
-    "discriminator": "0001",
-    "public_flags": 128,
-    "flags": 144,
-    "locale": "fr",
-    "nsfw_allowed": true,
-    "mfa_enabled": true,
-    "premium_type": 2,
-    "email": "pierremetout@gmail.com",
-    "verified": true,
-    "phone": "+33673563182"
-* */
-
 public class SelfUser {
     protected String id;
     protected String username;

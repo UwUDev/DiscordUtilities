@@ -1,6 +1,7 @@
-package me.uwu.saver;
+package me.uwu.saver.parse;
 
-import me.uwu.saver.objs.Embed;
+import me.uwu.saver.objs.Message;
+import me.uwu.saver.scrape.Scrapper;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -29,41 +30,34 @@ public class Parser {
 
         html.append(Template.base[0].replace("${channel_name}", scrapper.getChannel().getRealChannelName()).replace("${message_count}", String.valueOf(messages.size())));
 
-        String lastId = messages.get(0).author.getId();
+        String lastId = messages.get(0).getAuthor().getId();
 
         byte maxRep = 1;
 
         html.append(Template.startMessageGroup(messages.get(0)));
         for (Message message: messages) {
-            if (!lastId.equals(message.author.getId()) || maxRep >= 7) {
+            if (!lastId.equals(message.getAuthor().getId()) || maxRep >= 7) {
                 html.append(Template.endMessageGroup);
                 html.append(Template.startMessageGroup(message));
                 maxRep =1;
             }
 
-            if (message.type == 0){
+            if (message.getType() == 0)
                 html.append(Template.addMessageClassic(message, false));
-                if (message.getEmbeds().length > 0) {
-                    System.out.println("Embed: https://discord.com/channels/@me/" + scrapper.getChannel().getId() + "/" + message.id);
-                    for (Embed embed : message.getEmbeds()) {
-                        System.out.println("#" + Integer.toHexString(embed.getColor()));
-                    }
-                }
-            }
 
-            if (message.type == 3) {
+            if (message.getType() == 3) {
                 html.append(Template.endMessageGroup);
                 html.append(Template.addCall(message));
                 maxRep = 99;
             }
 
-            if (message.type == 6) {
+            if (message.getType() == 6) {
                 html.append(Template.endMessageGroup);
                 html.append(Template.addPin(message, scrapper.getChannel().getId()));
                 maxRep = 99;
             }
 
-            lastId = message.author.getId();
+            lastId = message.getAuthor().getId();
             maxRep++;
         }
         html.append(Template.endMessageGroup);

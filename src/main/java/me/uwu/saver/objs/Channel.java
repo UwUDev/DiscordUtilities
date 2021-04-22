@@ -98,4 +98,8 @@ public class Channel {
     public boolean isGroup(){
         return type == 3;
     }
+
+    public boolean isServerChannel(){
+        return !isDM() && !isGroup();
+    }
 }

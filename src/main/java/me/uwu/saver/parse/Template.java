@@ -1,6 +1,7 @@
-package me.uwu.saver;
+package me.uwu.saver.parse;
 
 import me.uwu.saver.objs.Embed;
+import me.uwu.saver.objs.Message;
 import me.uwu.saver.utils.Emoji;
 
 public class Template {
@@ -588,7 +589,7 @@ public class Template {
         return "<div class=message-group>\n" +
                 "        <div class=author-avatar-container><img class=author-avatar src=" + message.getAuthor().getAvatarUrl() + "></div>\n" +
                 "        <div class=cmessages>\n" +
-                "            <span class=author-name title=" + message.getAuthor().getFullName() + " data-user-id=" + message.getAuthor().getId() + ">" + message.getAuthor().getUsername() + "</span><span class=timestamp>" + message.timestamp + "</span>";
+                "            <span class=author-name title=" + message.getAuthor().getFullName() + " data-user-id=" + message.getAuthor().getId() + ">" + message.getAuthor().getUsername() + "</span><span class=timestamp>" + message.getTimestamp() + "</span>";
     }
 
     public static final String endMessageGroup = "</div>\n    </div>";
@@ -596,8 +597,8 @@ public class Template {
     public static String addMessageClassic(Message message, boolean reactions){
         StringBuilder sb = new StringBuilder();
 
-        sb.append("<div class=message message-id=" + message.id + ">\n" +
-                "                <div class=content><span class=markdown>" + Emoji.parse(message.content) + "</span></div>\n");
+        sb.append("<div class=message message-id=" + message.getId() + ">\n" +
+                "                <div class=content><span class=markdown>" + Emoji.parse(message.getContent()) + "</span></div>\n");
 
         for (Embed embed : message.getEmbeds()) {
             sb.append("<div class=embed>\n" +
@@ -659,7 +660,7 @@ public class Template {
         return "<div class=message-group>\n" +
                 "        <div class=author-call-container><img class=author-call src=https://discord.com/assets/5da4cdab01d4d89c593c48c62ae0d937.svg></div>\n" +
                 "        <div class=cmessages>\n" +
-                "            <span class=author-name title=" + messages.getAuthor().getFullName() + " data-user-id=" + messages.getAuthor().getId() + ">" + messages.getAuthor().getUsername() + "</span> <span> Pinned <a href=\"https://discord.com/channels/@me/" + channelId + "/" + messages.id + "\">a message</a> </span> <span class=timestamp>" + messages.getTimestamp() +"</span>\n";
+                "            <span class=author-name title=" + messages.getAuthor().getFullName() + " data-user-id=" + messages.getAuthor().getId() + ">" + messages.getAuthor().getUsername() + "</span> <span> Pinned <a href=\"https://discord.com/channels/@me/" + channelId + "/" + messages.getId() + "\">a message</a> </span> <span class=timestamp>" + messages.getTimestamp() +"</span>\n";
     }
 
 }
