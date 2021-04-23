@@ -4,6 +4,7 @@ import me.uwu.saver.objs.Attachments;
 import me.uwu.saver.objs.Embed;
 import me.uwu.saver.objs.Message;
 import me.uwu.saver.utils.Emoji;
+import me.uwu.saver.utils.Emote;
 
 public class Template {
     public static final String[] base = new String[]{
@@ -54,8 +55,9 @@ public class Template {
 
     public static String addMessageClassic(Message message, boolean reactions){
         StringBuilder sb = new StringBuilder();
+        Emote emote = new Emote();
 
-        sb.append("<div class=message message-id=").append(message.getId()).append("><div class=content><span class=markdown>").append(Emoji.parse(message.getContent())).append("</span></div>");
+        sb.append("<div class=message message-id=").append(message.getId()).append("><div class=content><span class=markdown>").append(Emoji.parse(emote.convertEmotes(message.getContent()))).append("</span></div>");
 
         for (Embed embed : message.getEmbeds()) {
             sb.append("<div class=embed><div class=embed-color-pill style=background-color:#").append(Integer.toHexString(embed.getColor())).append("></div><div class=embed-content-container><div class=embed-content><div class=embed-text><div class=embed-author>");
@@ -67,7 +69,7 @@ public class Template {
 
             if (embed.getDescription() != null)
                 if (!embed.getDescription().equals(""))
-                sb.append("<div class=embed-text><div class=embed-description><span class=markdown>").append(Emoji.parse(embed.getDescription())).append("</span></div><div class=embed-fields></div></div>");
+                sb.append("<div class=embed-text><div class=embed-description><span class=markdown>").append(Emoji.parse(emote.convertEmotes(embed.getDescription()))).append("</span></div><div class=embed-fields></div></div>");
 
             if (embed.getThumbnail() != null)
                 sb.append("<div class=attachment><a href=").append(embed.getThumbnail().getUrl()).append("><img class=attachment-thumbnail src=").append(embed.getThumbnail().getUrl()).append("></a></div>");
