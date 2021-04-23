@@ -20,7 +20,6 @@ public class Parser {
     }
 
     public void parse() throws IOException {
-        System.out.println("No messages :/");
         StringBuilder html = new StringBuilder();
 
         //List<Message> messages = new ArrayList<>(Arrays.asList(msg));

@@ -65,7 +65,9 @@ public class Template {
             if (embed.getImage() != null)
                 sb.append("<img class=embed-author-icon src=https://cdn.discordapp.com/embed/avatars/0.png>");
 
-            sb.append("<span class=embed-author-name>").append(embed.getTitle()).append("</span></div></div></div>");
+            if (embed.getTitle() != null && !embed.getTitle().equals("") && embed.getTitle().equals("null"))
+                sb.append("<span class=embed-author-name>").append(embed.getTitle()).append("</span></div></div></div>");
+            else sb.append("</div></div></div>");
 
             if (embed.getDescription() != null)
                 if (!embed.getDescription().equals(""))

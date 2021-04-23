@@ -21,7 +21,6 @@ public class Emote {
         AtomicReference<String> oof = new AtomicReference<>(messageContent);
 
         allMatches.forEach(s -> {
-            System.out.println(s);
             if (s.contains("<a:")){
                 try { oof.set(oof.get().replace(s, "<img class=\"emoji\" src=\"https://cdn.discordapp.com/emojis/" + s.replace("<a:", "").replace(">", "").split(":")[1] + ".gif?v=1\">"));
                 } catch (ArrayIndexOutOfBoundsException ignored) {}
