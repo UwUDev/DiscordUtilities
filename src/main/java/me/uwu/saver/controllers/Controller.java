@@ -8,12 +8,15 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import me.uwu.saver.Gui;
+import me.uwu.saver.objs.Channel;
+import me.uwu.saver.objs.Guild;
 import me.uwu.saver.objs.SelfUser;
 import me.uwu.saver.utils.DiscordUtils;
 import me.uwu.saver.utils.WebUtils;
@@ -25,13 +28,14 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.ParseException;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
 
-    public static Controller instance;
+    public static Channel[] dms;
+    public static Guild[] guilds;
+    public static Channel[] serverChannels;
 
     public ScrollPane scrollOptn;
     public AnchorPane controls;
@@ -51,9 +55,10 @@ public class Controller implements Initializable {
     public JFXTimePicker timePicker;
     public JFXButton checkTokenBtn;
 
-    public JFXPasswordField token;
+    public JFXPasswordField tokenField;
     public Circle pdp;
     public Label username;
+    public GridPane gridPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -118,8 +123,7 @@ public class Controller implements Initializable {
     }
 
     public void onSave(MouseEvent mouseEvent) throws ParseException {
-        LocalDate localDate = datePicker.getValue();
-        System.out.println(localDate);
+
     }
 
     private void selectFile(JFXButton openExportFile, JFXTextField fieldCombo) {
@@ -136,7 +140,20 @@ public class Controller implements Initializable {
     }
 
     public void checkToken(MouseEvent mouseEvent) throws IOException {
-        SelfUser user = DiscordUtils.getUserFromToken(token.getText());
+        String token = tokenField.getText();
+        pdp.setFill(new ImagePattern(Gui.icon, 60, 65, 120, 120, false));
+        pdp.setEffect(new DropShadow(+7d, +5d, +5d, new Color(0f, 0f, 0f, 0.3f)));
+        username.setText("User#0000");
+
+        gridPane.getChildren().clear();
+
+        if (!DiscordUtils.isValidToken(token)){
+            optionNone.setText("Invalid token (oof moment)");
+            return;
+        }
+        optionNone.setText("");
+
+        SelfUser user = DiscordUtils.getUserFromToken(token);
 
         String imgUrl = user.getAvatarUrl();
         URLConnection connection = new URL(imgUrl).openConnection();
@@ -147,5 +164,75 @@ public class Controller implements Initializable {
         pdp.setEffect(new DropShadow(+7d, +5d, +5d, new Color(0f, 0f, 0f, 0.3f)));
 
         username.setText(user.getFullUsername());
+        guilds = DiscordUtils.getGuilds(token);
+        dms = DiscordUtils.getDMs(token);
+
+        setGuildsPane(token);
+
+        for (Channel dm : dms) {
+            System.out.println(dm.getRealChannelName());
+        }
+    }
+
+    private void setGuildsPane(String token){
+        gridPane.getChildren().clear();
+
+        JFXButton backButton = new JFXButton("DMs");
+        backButton.setStyle("-fx-font-size: 38px;");
+        backButton.setOnMouseClicked(event1 -> {
+            gridPane.getChildren().clear();
+            setDMsPane(token);
+        });
+        gridPane.add(backButton, 0, 0);
+
+        int row = 1;
+        for (Guild guild : guilds){
+            JFXButton button = new JFXButton(guild.getName());
+            button.setOnMouseClicked(event -> {
+                System.out.println(guild.getId());
+                try {
+                    gridPane.getChildren().clear();
+                    int subRow = 1;
+                    for (Channel channel : DiscordUtils.getGuildChannels(token, guild.getId())){
+                        JFXButton subBackButton = new JFXButton("Back");
+                        subBackButton.setStyle("-fx-font-size: 38px;");
+                        subBackButton.setOnMouseClicked(event1 -> {
+                            gridPane.getChildren().clear();
+                            setGuildsPane(token);
+                        });
+                        gridPane.add(subBackButton, 0, 0);
+
+                        JFXButton subButton = new JFXButton(channel.getName());
+                        subButton.setOnMouseClicked(subEvent -> System.out.println(channel.getId()));
+                        gridPane.add(subButton, 0, subRow);
+                        subRow++;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+            gridPane.add(button, 0, row);
+            row++;
+        }
+    }
+
+    private void setDMsPane(String token){
+        gridPane.getChildren().clear();
+
+        JFXButton backButton = new JFXButton("Guilds");
+        backButton.setStyle("-fx-font-size: 38px;");
+        backButton.setOnMouseClicked(event1 -> {
+            gridPane.getChildren().clear();
+            setGuildsPane(token);
+        });
+        gridPane.add(backButton, 0, 0);
+
+        int row = 1;
+        for (Channel dm : dms){
+            JFXButton button = new JFXButton(dm.getRealChannelName());
+            button.setOnMouseClicked(event -> System.out.println(dm.getId()));
+            gridPane.add(button, 0, row);
+            row++;
+        }
     }
 }
