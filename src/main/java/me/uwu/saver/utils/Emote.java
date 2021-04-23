@@ -22,9 +22,13 @@ public class Emote {
 
         allMatches.forEach(s -> {
             System.out.println(s);
-            try {
-                oof.set(oof.get().replace(s, "<img class=\"emoji\" src=\"https://cdn.discordapp.com/emojis/" + s.replace("<:", "").replace(">", "").split(":")[1] + ".png?v=1\">"));
-            } catch (ArrayIndexOutOfBoundsException ignored){}
+            if (s.contains("<a:")){
+                try { oof.set(oof.get().replace(s, "<img class=\"emoji\" src=\"https://cdn.discordapp.com/emojis/" + s.replace("<a:", "").replace(">", "").split(":")[1] + ".gif?v=1\">"));
+                } catch (ArrayIndexOutOfBoundsException ignored) {}
+            }else {
+                try { oof.set(oof.get().replace(s, "<img class=\"emoji\" src=\"https://cdn.discordapp.com/emojis/" + s.replace("<:", "").replace(">", "").split(":")[1] + ".png?v=1\">"));
+                } catch (ArrayIndexOutOfBoundsException ignored) {}
+            }
         });
 
         return oof.get();
