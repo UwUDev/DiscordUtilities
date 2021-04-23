@@ -1,6 +1,8 @@
 package me.uwu.saver.scrape;
 
 import com.google.gson.Gson;
+import javafx.application.Platform;
+import me.uwu.saver.controllers.LoadingController;
 import me.uwu.saver.objs.Channel;
 import me.uwu.saver.objs.Message;
 import okhttp3.OkHttpClient;
@@ -12,12 +14,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class Scrapper {
     private String token;
     private Channel channel;
+    public AtomicReference<List<Message>> messagesTemp = new AtomicReference<>();
 
-    public List<Message> messages = new ArrayList<>();
 
     public Scrapper(String token){
         this.token = token;
@@ -25,14 +29,15 @@ public class Scrapper {
 
     public void scrape(String channelId) throws IOException {
 
-        messages = new ArrayList<>();
+        messagesTemp.set(new ArrayList<>());
+        List<Message> messages = messagesTemp.get();
 
         Message[] lastMessages;
 
-        try {
+        try { // go jsp faire un atomic d'une array xdd
             new ProcessBuilder("cmd", "/c", "color 4").inheritIO().start().waitFor();
         } catch (Exception ignored){}
-        System.out.print("\r" + messages.size() + " messages");
+        //System.out.print("\r" + messages.size() + " messages");
 
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
@@ -49,13 +54,20 @@ public class Scrapper {
 
         messages.addAll(Arrays.asList(lastMessages));
 
-        System.out.println(responseBody);
+        Platform.runLater(() -> {
+            LoadingController.INSTANCE.setState("Getting messages");
+            LoadingController.INSTANCE.setInfos(messages.size() + " messages");
+        });
+
+        //System.out.println(responseBody);
 
         //System.out.println(lastMessages.length);
         try {
             new ProcessBuilder("cmd", "/c", "color a").inheritIO().start().waitFor();
         } catch (Exception ignored){}
-        System.out.print("\r" + messages.size() + " messages");
+        //System.out.print("\r" + messages.size() + " messages");
+        Platform.runLater(() -> LoadingController.INSTANCE.setInfos(messages.size() + " messages"));
+
 
         while (lastMessages.length >= 100){
             OkHttpClient client2 = new OkHttpClient().newBuilder()
@@ -77,8 +89,10 @@ public class Scrapper {
 
             //System.out.println(lastMessages.length);
 
-            System.out.print("\r" + messages.size() + " messages");
-        }
+            //System.out.print("\r" + messages.size() + " messages");
+            Platform.runLater(() -> LoadingController.INSTANCE.setInfos(messages.size() + " messages"));
+
+        }// c'est une maquette (any qui casse les couilles avec le numpad c'est genial)
 
         String json = new Gson().toJson(messages);
 
@@ -86,6 +100,8 @@ public class Scrapper {
         writer.write(json);
 
         writer.close();
+
+        messagesTemp.set(messages);//on est daccord que ca va lmarcher la ? aucune idée
 
     }
 

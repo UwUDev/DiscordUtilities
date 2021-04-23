@@ -1,5 +1,7 @@
 package me.uwu.saver.parse;
 
+import javafx.application.Platform;
+import me.uwu.saver.controllers.LoadingController;
 import me.uwu.saver.objs.Message;
 import me.uwu.saver.scrape.Scrapper;
 
@@ -18,12 +20,21 @@ public class Parser {
     }
 
     public void parse() throws IOException {
+        System.out.println("No messages :/");
         StringBuilder html = new StringBuilder();
 
         //List<Message> messages = new ArrayList<>(Arrays.asList(msg));
-        List<Message> messages = scrapper.messages;
-        if (!(messages.size() > 0)){
-            System.out.println("No messages :/");
+        List<Message> messages = scrapper.messagesTemp.get();
+        Platform.runLater(() -> {
+            LoadingController.INSTANCE.setState("Filtering messages");
+            LoadingController.INSTANCE.setInfos("");
+        });
+
+        if (!(messages.size() > 0)) {
+            Platform.runLater(() -> {
+                LoadingController.INSTANCE.error();
+                LoadingController.INSTANCE.setInfos("No message :c");
+            });
             return;
         }
         Collections.reverse(messages);
@@ -33,13 +44,23 @@ public class Parser {
         String lastId = messages.get(0).getAuthor().getId();
 
         byte maxRep = 1;
+        long messagesState = 0;
+
+        Platform.runLater(() -> {
+            LoadingController.INSTANCE.setState("Converting messages");
+        });
 
         html.append(Template.startMessageGroup(messages.get(0)));
-        for (Message message: messages) {
+        for (Message message : messages) {
             if (!lastId.equals(message.getAuthor().getId()) || maxRep >= 7) {
                 html.append(Template.endMessageGroup);
                 html.append(Template.startMessageGroup(message));
-                maxRep =1;
+                float percent = ((float) messagesState / (float) messages.size()) * 100f;
+                long finalMessagesState = messagesState;
+                Platform.runLater(() -> {
+                    LoadingController.INSTANCE.setInfos(finalMessagesState + " / " + messages.size() + "\n" + (int) percent + "%");
+                });
+                maxRep = 1;
             }
 
             if (message.getType() == 0)
@@ -59,6 +80,7 @@ public class Parser {
 
             lastId = message.getAuthor().getId();
             maxRep++;
+            messagesState++;
         }
         html.append(Template.endMessageGroup);
 
@@ -70,6 +92,10 @@ public class Parser {
         writer.close();
 
         System.out.println("\nFinished :)");
+        Platform.runLater(() -> {
+            LoadingController.INSTANCE.setState("Finished");
+            LoadingController.INSTANCE.setInfos("");
+        });
     }
 
     public Scrapper getScrapper() {

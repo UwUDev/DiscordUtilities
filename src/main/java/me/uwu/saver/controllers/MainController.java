@@ -1,7 +1,12 @@
 package me.uwu.saver.controllers;
 
 import com.jfoenix.controls.*;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
@@ -13,6 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import me.uwu.saver.Gui;
 import me.uwu.saver.objs.Channel;
@@ -32,9 +38,8 @@ import java.net.URLConnection;
 import java.text.ParseException;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
-public class Controller implements Initializable {
+public class MainController implements Initializable {
 
     public static Channel[] dms;
     public static Guild[] guilds;
@@ -68,6 +73,14 @@ public class Controller implements Initializable {
     public JFXTextField rangeMax;
     public JFXTextField rangeMin;
     public JFXButton backupButton;
+
+    public JFXButton bonkButton;
+
+    public static MainController INSTANCE;
+
+    public MainController(){
+        INSTANCE = this;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -251,13 +264,24 @@ public class Controller implements Initializable {
                 backupButton.setOnMouseClicked(event1 -> {
                     Scrapper scrapper = new Scrapper(token);
                     try {
-                        scrapper.updateChannel(String.valueOf(dm.getId()));
-                        scrapper.scrape(String.valueOf(dm.getId()));
-                        Parser parser = new Parser(scrapper);
-                        parser.parse();
+                        openPopup();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
+                    Thread t = new Thread(() -> {
+                        try {
+                            scrapper.updateChannel(String.valueOf(dm.getId()));
+                            scrapper.scrape(String.valueOf(dm.getId()));
+                            Parser parser = new Parser(scrapper);
+                            parser.parse();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Platform.runLater(() -> LoadingController.INSTANCE.error());
+
+                        }
+                    });
+                    t.start();
 
                 });
             });
@@ -274,7 +298,17 @@ public class Controller implements Initializable {
         backupButton.setVisible(b);
     }
 
-    public void onBackup(MouseEvent mouseEvent) {
-
+    public void openPopup() throws IOException {
+        final Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.initOwner(Gui.getPrimaryStage());
+        URL url = Gui.class.getResource("Popup.fxml");
+        System.out.println(url.getFile());
+        Parent root = FXMLLoader.load(url);
+        dialog.setTitle("Backing up...");
+        dialog.setScene(new Scene(root, 500, 300));
+        dialog.getScene().getStylesheets().add(String.valueOf(Gui.class.getResource("style.css")));
+        dialog.setResizable(false);
+        dialog.show();
     }
 }
