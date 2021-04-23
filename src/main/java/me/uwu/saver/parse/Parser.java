@@ -46,9 +46,7 @@ public class Parser {
         byte maxRep = 1;
         long messagesState = 0;
 
-        Platform.runLater(() -> {
-            LoadingController.INSTANCE.setState("Converting messages");
-        });
+        Platform.runLater(() -> LoadingController.INSTANCE.setState("Converting messages"));
 
         html.append(Template.startMessageGroup(messages.get(0)));
         for (Message message : messages) {
@@ -57,9 +55,7 @@ public class Parser {
                 html.append(Template.startMessageGroup(message));
                 float percent = ((float) messagesState / (float) messages.size()) * 100f;
                 long finalMessagesState = messagesState;
-                Platform.runLater(() -> {
-                    LoadingController.INSTANCE.setInfos(finalMessagesState + " / " + messages.size() + "\n" + (int) percent + "%");
-                });
+                Platform.runLater(() -> LoadingController.INSTANCE.setInfos(finalMessagesState + " / " + messages.size() + "\n" + (int) percent + "%"));
                 maxRep = 1;
             }
 
@@ -92,10 +88,7 @@ public class Parser {
         writer.close();
 
         System.out.println("\nFinished :)");
-        Platform.runLater(() -> {
-            LoadingController.INSTANCE.setState("Finished");
-            LoadingController.INSTANCE.setInfos("");
-        });
+        Platform.runLater(() -> LoadingController.INSTANCE.finished());
     }
 
     public Scrapper getScrapper() {

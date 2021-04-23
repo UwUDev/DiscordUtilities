@@ -1,10 +1,11 @@
 package me.uwu.saver.controllers;
 
-import javafx.fxml.FXML;
+import com.jfoenix.controls.JFXButton;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 
+import javax.xml.soap.Node;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -13,6 +14,7 @@ public class LoadingController implements Initializable {
 
     public Label state;
     public Label infos;
+    public JFXButton exitButton;
 
     public static LoadingController INSTANCE;
 
@@ -36,5 +38,16 @@ public class LoadingController implements Initializable {
     public void error(){
         infos.setText("");
         state.setText("Error :/");
+    }
+
+    public void finished(){
+        state.setText("Finished");
+        infos.setText("");
+        exitButton.setVisible(true);
+        exitButton.setDisable(false);
+    }
+
+    public void exit(MouseEvent mouseEvent) {
+        exitButton.getScene().getWindow().hide();
     }
 }

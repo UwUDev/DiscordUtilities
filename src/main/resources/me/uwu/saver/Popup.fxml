@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXProgressBar?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.Pane?>
@@ -18,5 +19,6 @@
             <Font size="14.0" />
          </font>
       </Label>
+      <JFXButton fx:id="exitButton" onMouseClicked="#exit" disable="true" layoutX="196.0" layoutY="181.0" prefHeight="39.0" prefWidth="108.0" style="-fx-background-color: #8700ff;" text="EXIT" textFill="WHITE" visible="false" />
    </children>
 </Pane>
