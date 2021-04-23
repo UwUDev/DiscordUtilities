@@ -21,7 +21,7 @@ public class Parser {
         StringBuilder html = new StringBuilder();
 
         //List<Message> messages = new ArrayList<>(Arrays.asList(msg));
-        List<Message> messages = Scrapper.messages;
+        List<Message> messages = scrapper.messages;
         if (!(messages.size() > 0)){
             System.out.println("No messages :/");
             return;

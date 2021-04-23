@@ -17,13 +17,15 @@ public class Scrapper {
     private String token;
     private Channel channel;
 
-    public static List<Message> messages = new ArrayList<>();
+    public List<Message> messages = new ArrayList<>();
 
     public Scrapper(String token){
         this.token = token;
     }
 
     public void scrape(String channelId) throws IOException {
+
+        messages = new ArrayList<>();
 
         Message[] lastMessages;
 

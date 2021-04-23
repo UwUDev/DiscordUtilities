@@ -18,6 +18,8 @@ import me.uwu.saver.Gui;
 import me.uwu.saver.objs.Channel;
 import me.uwu.saver.objs.Guild;
 import me.uwu.saver.objs.SelfUser;
+import me.uwu.saver.parse.Parser;
+import me.uwu.saver.scrape.Scrapper;
 import me.uwu.saver.utils.DiscordUtils;
 import me.uwu.saver.utils.WebUtils;
 
@@ -30,6 +32,7 @@ import java.net.URLConnection;
 import java.text.ParseException;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class Controller implements Initializable {
 
@@ -60,9 +63,16 @@ public class Controller implements Initializable {
     public Label username;
     public GridPane gridPane;
 
+    public Label optionLabel1;
+    public Label optionLabel2;
+    public JFXTextField rangeMax;
+    public JFXTextField rangeMin;
+    public JFXButton backupButton;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("Owi");
+        setOptionVisibility(false);
 
         //pdp.setStroke(Color.SEAGREEN);
         //Image im = new Image("https://juicylinksmag.files.wordpress.com/2016/02/juliet-ibrahim.jpg",false);
@@ -141,6 +151,8 @@ public class Controller implements Initializable {
 
     public void checkToken(MouseEvent mouseEvent) throws IOException {
         String token = tokenField.getText();
+
+        setOptionVisibility(false);
         pdp.setFill(new ImagePattern(Gui.icon, 60, 65, 120, 120, false));
         pdp.setEffect(new DropShadow(+7d, +5d, +5d, new Color(0f, 0f, 0f, 0.3f)));
         username.setText("User#0000");
@@ -203,7 +215,10 @@ public class Controller implements Initializable {
                         gridPane.add(subBackButton, 0, 0);
 
                         JFXButton subButton = new JFXButton(channel.getName());
-                        subButton.setOnMouseClicked(subEvent -> System.out.println(channel.getId()));
+                        subButton.setOnMouseClicked(subEvent -> {
+                            System.out.println(channel.getId());
+                            setOptionVisibility(true);
+                        });
                         gridPane.add(subButton, 0, subRow);
                         subRow++;
                     }
@@ -230,9 +245,36 @@ public class Controller implements Initializable {
         int row = 1;
         for (Channel dm : dms){
             JFXButton button = new JFXButton(dm.getRealChannelName());
-            button.setOnMouseClicked(event -> System.out.println(dm.getId()));
+            button.setOnMouseClicked(event -> {
+                System.out.println(dm.getId());
+                setOptionVisibility(true);
+                backupButton.setOnMouseClicked(event1 -> {
+                    Scrapper scrapper = new Scrapper(token);
+                    try {
+                        scrapper.updateChannel(String.valueOf(dm.getId()));
+                        scrapper.scrape(String.valueOf(dm.getId()));
+                        Parser parser = new Parser(scrapper);
+                        parser.parse();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                });
+            });
             gridPane.add(button, 0, row);
             row++;
         }
+    }
+
+    private void setOptionVisibility(boolean b){
+        optionLabel1.setVisible(b);
+        optionLabel2.setVisible(b);
+        rangeMax.setVisible(b);
+        rangeMin.setVisible(b);
+        backupButton.setVisible(b);
+    }
+
+    public void onBackup(MouseEvent mouseEvent) {
+
     }
 }
