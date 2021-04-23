@@ -1,5 +1,6 @@
 package me.uwu.saver.parse;
 
+import me.uwu.saver.objs.Attachments;
 import me.uwu.saver.objs.Embed;
 import me.uwu.saver.objs.Message;
 import me.uwu.saver.utils.Emoji;
@@ -639,6 +640,10 @@ public class Template {
             sb.append("                    </div>\n" +
                     "                </div>");
         }
+
+        for (Attachments attachment : message.getAttachments())
+            sb.append("<div class=attachment><a href=" + attachment.getUrl() + "><img class=attachment-thumbnail src=" + attachment.getUrl() + "></a></div>");
+
 
         if (reactions)
             sb.append("                <div class=reactions>\n" +

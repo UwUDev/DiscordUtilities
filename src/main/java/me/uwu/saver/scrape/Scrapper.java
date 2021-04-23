@@ -59,7 +59,7 @@ public class Scrapper {
             LoadingController.INSTANCE.setInfos(messages.size() + " messages");
         });
 
-        //System.out.println(responseBody);
+        System.out.println(responseBody);
 
         //System.out.println(lastMessages.length);
         try {

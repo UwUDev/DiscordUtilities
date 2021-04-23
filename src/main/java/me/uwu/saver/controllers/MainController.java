@@ -151,6 +151,29 @@ public class MainController implements Initializable {
                         subButton.setOnMouseClicked(subEvent -> {
                             System.out.println(channel.getId());
                             setOptionVisibility(true);
+                            backupButton.setOnMouseClicked(event1 -> {
+                                Scrapper scrapper = new Scrapper(token);
+                                try {
+                                    openPopup();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                Thread t = new Thread(() -> {
+                                    try {
+                                        scrapper.updateChannel(String.valueOf(channel.getId()));
+                                        scrapper.scrape(String.valueOf(channel.getId()));
+                                        Parser parser = new Parser(scrapper);
+                                        parser.parse();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                        Platform.runLater(() -> LoadingController.INSTANCE.error());
+
+                                    }
+                                });
+                                t.start();
+
+                            });
                         });
                         gridPane.add(subButton, 0, subRow);
                         subRow++;
