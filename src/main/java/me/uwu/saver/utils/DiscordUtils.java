@@ -6,6 +6,7 @@ import me.uwu.saver.objs.Guild;
 import me.uwu.saver.objs.SelfUser;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.ResponseBody;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -25,7 +26,12 @@ public class DiscordUtils {
                 .build();
 
         Gson gson = new Gson();
-        String responseBody = client.newCall(request).execute().body().string();
+        ResponseBody respBody = client.newCall(request).execute().body();
+        if (respBody == null){
+            System.out.println("Oh oh.. something went wrong :c");
+            return null;
+        }
+        String responseBody = respBody.string();
         return gson.fromJson(responseBody, SelfUser.class);
     }
 
@@ -40,7 +46,12 @@ public class DiscordUtils {
                 .build();
 
         try {
-            String responseBody = client.newCall(request).execute().body().string();
+            ResponseBody respBody = client.newCall(request).execute().body();
+            if (respBody == null){
+                System.out.println("Oh oh.. something went wrong :c");
+                return false;
+            }
+            String responseBody = respBody.string();
             if (responseBody.contains("username")) return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -59,7 +70,12 @@ public class DiscordUtils {
                 .build();
 
         Gson gson = new Gson();
-        String responseBody = client.newCall(request).execute().body().string();
+        ResponseBody respBody = client.newCall(request).execute().body();
+        if (respBody == null){
+            System.out.println("Oh oh.. something went wrong :c");
+            return null;
+        }
+        String responseBody = respBody.string();
         Channel[] channels = gson.fromJson(responseBody, Channel[].class);
 
         List<Channel> tempChannels = Arrays.stream(channels).filter(p -> p.getLast_message_id() > 0).collect(Collectors.toList());
@@ -94,7 +110,12 @@ public class DiscordUtils {
                 .build();
 
         Gson gson = new Gson();
-        String responseBody = client.newCall(request).execute().body().string();
+        ResponseBody respBody = client.newCall(request).execute().body();
+        if (respBody == null){
+            System.out.println("Oh oh.. something went wrong :c");
+            return null;
+        }
+        String responseBody = respBody.string();
         return gson.fromJson(responseBody, Channel[].class);
     }
 
@@ -109,7 +130,12 @@ public class DiscordUtils {
                 .build();
 
         Gson gson = new Gson();
-        String responseBody = client.newCall(request).execute().body().string();
+        ResponseBody respBody = client.newCall(request).execute().body();
+        if (respBody == null){
+            System.out.println("Oh oh.. something went wrong :c");
+            return null;
+        }
+        String responseBody = respBody.string();
         return gson.fromJson(responseBody, Guild[].class);
     }
 }

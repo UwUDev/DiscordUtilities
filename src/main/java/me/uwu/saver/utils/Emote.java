@@ -9,10 +9,10 @@ import java.util.regex.Pattern;
 public class Emote {
     public Emote(){}
 
-    private final String emoteRegex = "<(?:[^\\d>]+|:[A-Za-z0-9]+:)\\w+>"; //help me, my brain is bleeding   ;-;
-
     public String convertEmotes(String messageContent){
         List<String> allMatches = new ArrayList<>();
+        //help me, my brain is bleeding   ;-;
+        String emoteRegex = "<(?:[^\\d>]+|:[A-Za-z0-9]+:)\\w+>";
         Matcher m = Pattern.compile(emoteRegex).matcher(messageContent);
         while (m.find()) {
             allMatches.add(m.group());

@@ -6,6 +6,7 @@ import me.uwu.saver.objs.Message;
 import me.uwu.saver.utils.Emoji;
 import me.uwu.saver.utils.Emote;
 
+@SuppressWarnings("SpellCheckingInspection")
 public class Template {
     public static final String[] base = new String[]{
                     "<!DOCTYPE html>" +

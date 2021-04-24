@@ -16,8 +16,10 @@ public class Message {
     private String timestamp;
     private String edited_timestamp;
     private String flags;
+    private Component[] components;
+    private Reaction[] reactions;
 
-    public Message(String id, int type, String content, String channel_id, User author, Attachments[] attachments, Embed[] embeds, Mentions[] mentions, Mention_roles[] mention_roles, boolean pinned, boolean mention_everyone, boolean tts, String timestamp, String edited_timestamp, String flags) {
+    public Message(String id, int type, String content, String channel_id, User author, Attachments[] attachments, Embed[] embeds, Mentions[] mentions, Mention_roles[] mention_roles, boolean pinned, boolean mention_everyone, boolean tts, String timestamp, String edited_timestamp, String flags, Component[] components, Reaction[] reactions) {
         this.id = id;
         this.type = type;
         this.content = content;
@@ -33,6 +35,8 @@ public class Message {
         this.timestamp = timestamp;
         this.edited_timestamp = edited_timestamp;
         this.flags = flags;
+        this.components = components;
+        this.reactions = reactions;
     }
 
     public String getId() {
@@ -97,5 +101,21 @@ public class Message {
 
     public void setEmbeds(Embed[] embeds) {
         this.embeds = embeds;
+    }
+
+    public Component[] getComponents() {
+        return components;
+    }
+
+    public void setComponents(Component[] components) {
+        this.components = components;
+    }
+
+    public Reaction[] getReactions() {
+        return reactions;
+    }
+
+    public void setReactions(Reaction[] reactions) {
+        this.reactions = reactions;
     }
 }

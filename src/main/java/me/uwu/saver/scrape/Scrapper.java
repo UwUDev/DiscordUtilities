@@ -1,12 +1,14 @@
 package me.uwu.saver.scrape;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import javafx.application.Platform;
 import me.uwu.saver.controllers.LoadingController;
 import me.uwu.saver.objs.Channel;
 import me.uwu.saver.objs.Message;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.ResponseBody;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -15,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class Scrapper {
     private String token;
@@ -34,10 +35,9 @@ public class Scrapper {
 
         Message[] lastMessages;
 
-        try { // go jsp faire un atomic d'une array xdd
+        try {
             new ProcessBuilder("cmd", "/c", "color 4").inheritIO().start().waitFor();
         } catch (Exception ignored){}
-        //System.out.print("\r" + messages.size() + " messages");
 
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
@@ -49,7 +49,15 @@ public class Scrapper {
                 .build();
 
         Gson gson = new Gson();
-        String responseBody = client.newCall(request).execute().body().string();
+        ResponseBody respBody = client.newCall(request).execute().body();
+        if (respBody == null){
+            Platform.runLater(() -> {
+                LoadingController.INSTANCE.error();
+                LoadingController.INSTANCE.setInfos("Unable to get messages");
+            });
+            return;
+        }
+        String responseBody = respBody.string();
         lastMessages = gson.fromJson(responseBody, Message[].class);
 
         messages.addAll(Arrays.asList(lastMessages));
@@ -59,13 +67,10 @@ public class Scrapper {
             LoadingController.INSTANCE.setInfos(messages.size() + " messages");
         });
 
-        //System.out.println(responseBody);
-
-        //System.out.println(lastMessages.length);
         try {
             new ProcessBuilder("cmd", "/c", "color a").inheritIO().start().waitFor();
         } catch (Exception ignored){}
-        //System.out.print("\r" + messages.size() + " messages");
+
         Platform.runLater(() -> LoadingController.INSTANCE.setInfos(messages.size() + " messages"));
 
 
@@ -79,20 +84,25 @@ public class Scrapper {
                     .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36")
                     .build();
 
-            Gson gson2 = new Gson();
-            String responseBody2 = client2.newCall(request2).execute().body().string();
+            Gson gson2 = new GsonBuilder().serializeNulls().create();
+            ResponseBody respBody2 = client2.newCall(request2).execute().body();
+
+            if (respBody2 == null){
+                Platform.runLater(() -> {
+                    LoadingController.INSTANCE.error();
+                    LoadingController.INSTANCE.setInfos("Unable to get messages");
+                });
+                return;
+            }
+
+            String responseBody2 = respBody2.string();
+            System.out.println(responseBody);
             lastMessages = gson2.fromJson(responseBody2, Message[].class);
 
             messages.addAll(Arrays.asList(lastMessages));
-
-            //System.out.println(responseBody2);
-
-            //System.out.println(lastMessages.length);
-
-            //System.out.print("\r" + messages.size() + " messages");
             Platform.runLater(() -> LoadingController.INSTANCE.setInfos(messages.size() + " messages"));
 
-        }// c'est une maquette (any qui casse les couilles avec le numpad c'est genial)
+        }
 
         String json = new Gson().toJson(messages);
 
@@ -114,7 +124,17 @@ public class Scrapper {
                 .addHeader("Authorization", token)
                 .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.90 Safari/537.36")                .build();
         Gson gson = new Gson();
-        String responseBody = client.newCall(request).execute().body().string();
+        ResponseBody respBody = client.newCall(request).execute().body();
+
+        if (respBody == null){
+            Platform.runLater(() -> {
+                LoadingController.INSTANCE.error();
+                LoadingController.INSTANCE.setInfos("Unable to get messages");
+            });
+            return;
+        }
+
+        String responseBody = respBody.string();
         //System.out.println(responseBody);
         channel = gson.fromJson(responseBody, Channel.class);
     }
