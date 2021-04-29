@@ -25,7 +25,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>me.uwu.saver.Main</mainClass>
+                            <mainClass>me.uwu.saver.core.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -46,7 +46,7 @@
                             <transformers>
                                 <!-- add Main-Class to manifest file -->
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>me.uwu.saver.Main</mainClass>
+                                    <mainClass>me.uwu.saver.core.Main</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
