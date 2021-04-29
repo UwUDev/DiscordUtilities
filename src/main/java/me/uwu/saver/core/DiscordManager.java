@@ -51,7 +51,36 @@ public class DiscordManager {
         parsers = new ArrayList<>();
     }
 
+    @SuppressWarnings("BusyWait")
     public void parseAll(){
+        List<Thread> threads = makeThreads();
+        for (Thread thread : threads) {
+            thread.start();
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        while (!threadsFinished(threads)){
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        System.out.println("Finished :)");
+    }
+
+    private boolean threadsFinished(List<Thread> threadList){
+        for (Thread thread : threadList) {
+            if (thread.isAlive())
+                return false;
+        }
+        return true;
+    }
+
+    public void parseAllQueue(){
         for (Parser parser : parsers){
             try {
                 parser.getScrapper().scrape(parser.getScrapper().getcId());
@@ -63,6 +92,15 @@ public class DiscordManager {
                 System.out.println("\u001B[33mUnable to scrappe " + parser.getScrapper().getcId());
             }
         }
+    }
+
+    private List<Thread> makeThreads(){
+        List<Thread> tempList = new ArrayList<>();
+        for (Parser parser : parsers) {
+            Runnable runnable = parser::fullAuto;
+            tempList.add(new Thread(runnable));
+        }
+        return tempList;
     }
 
     public void printParsersInfo(){

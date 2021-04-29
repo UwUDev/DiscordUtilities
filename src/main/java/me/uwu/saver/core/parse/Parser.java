@@ -20,6 +20,24 @@ public class Parser {
         this.scrapper = scrapper;
     }
 
+    public void fullAuto(){
+        if (scrapper.getcId() == null){
+            System.out.println("Can't fullauto");
+            return;
+        }
+        if (scrapper.getcId().isEmpty()){
+            System.out.println("Can't fullauto");
+            return;
+        }
+        try {
+            scrapper.scrape(scrapper.getcId());
+            parse();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("OOF");
+        }
+    }
+
     public void parse() throws IOException {
         StringBuilder html = new StringBuilder();
 
