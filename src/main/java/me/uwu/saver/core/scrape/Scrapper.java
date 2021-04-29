@@ -22,6 +22,8 @@ public class Scrapper {
     private String token;
     private Channel channel;
     public AtomicReference<List<Message>> messagesTemp = new AtomicReference<>();
+    private String cId;
+    public boolean scraping = false;
 
 
     public Scrapper(String token){
@@ -29,6 +31,7 @@ public class Scrapper {
     }
 
     public void scrape(String channelId) throws IOException {
+        scraping = true;
 
         messagesTemp.set(new ArrayList<>());
         List<Message> messages = messagesTemp.get();
@@ -55,6 +58,7 @@ public class Scrapper {
                 LoadingController.INSTANCE.error();
                 LoadingController.INSTANCE.setInfos("Unable to get messages");
             });
+            scraping = false;
             return;
         }
         String responseBody = respBody.string();
@@ -92,6 +96,7 @@ public class Scrapper {
                     LoadingController.INSTANCE.error();
                     LoadingController.INSTANCE.setInfos("Unable to get messages");
                 });
+                scraping = false;
                 return;
             }
 
@@ -111,8 +116,9 @@ public class Scrapper {
 
         writer.close();
 
-        messagesTemp.set(messages);//on est daccord que ca va lmarcher la ? aucune idée
+        messagesTemp.set(messages);
 
+        scraping = false;
     }
 
     public void updateChannel(String channelId) throws IOException {
@@ -153,5 +159,13 @@ public class Scrapper {
 
     public void setChannel(Channel channel) {
         this.channel = channel;
+    }
+
+    public String getcId() {
+        return cId;
+    }
+
+    public void setcId(String cId) {
+        this.cId = cId;
     }
 }

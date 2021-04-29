@@ -14,6 +14,7 @@ import java.util.List;
 
 public class Parser {
     private Scrapper scrapper;
+    public boolean parsing = false;
 
     public Parser(Scrapper scrapper) {
         this.scrapper = scrapper;
@@ -36,6 +37,7 @@ public class Parser {
             });
             return;
         }
+        parsing = true;
         Collections.reverse(messages);
 
         html.append(Template.base[0].replace("${channel_name}", scrapper.getChannel().getRealChannelName()).replace("${message_count}", String.valueOf(messages.size())));
@@ -88,6 +90,7 @@ public class Parser {
 
         System.out.println("\nFinished :)");
         Platform.runLater(() -> LoadingController.INSTANCE.finished());
+        parsing = false;
     }
 
     public Scrapper getScrapper() {
